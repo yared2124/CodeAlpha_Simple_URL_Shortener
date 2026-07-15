@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Simple URL Shortener</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 500px; margin: 50px auto; text-align: center; }
+    input { width: 70%; padding: 10px; margin-right: 5px; }
+    button { padding: 10px 20px; cursor: pointer; }
+    #result { margin-top: 20px; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>🔗 Simple URL Shortener</h1>
+  <input type="url" id="urlInput" placeholder="Enter long URL (e.g., https://example.com)" />
+  <button id="shortenBtn">Shorten</button>
+  <div id="result"></div>
+
+  <script>
+    document.getElementById('shortenBtn').addEventListener('click', async () => {
+      const longUrl = document.getElementById('urlInput').value;
+      const resultDiv = document.getElementById('result');
+
+      if (!longUrl) {
+        resultDiv.innerHTML = '<p style="color:red;">Please enter a URL.</p>';
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/shorten', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ longUrl }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          resultDiv.innerHTML = `
+            <p style="color:green;">✅ Short URL created!</p>
+            <p><a href="${data.shortUrl}" target="_blank">${data.shortUrl}</a></p>
+          `;
+        } else {
+          resultDiv.innerHTML = `<p style="color:red;">❌ Error: ${data.error}</p>`;
+        }
+      } catch (error) {
+        resultDiv.innerHTML = `<p style="color:red;">❌ Network error. Is the server running?</p>`;
+      }
+    });
+  </script>
+</body>
+</html>
