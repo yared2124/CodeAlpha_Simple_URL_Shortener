@@ -1,8 +1,7 @@
 /* ============================================
-   VIBRANT GLASSMORPHISM THEME
+   GLASSMORPHISM THEME (Dark + Light modes)
    Colors: Warm purple → blue gradient
    Card: Frosted glass with blur
-   Accent: Bright cyan/orange
    ============================================ */
 
 /* --- Reset & Base --- */
@@ -24,6 +23,135 @@ body {
   padding: 1.5rem;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+/* --- Light mode overrides --- */
+body.light-mode {
+  background: linear-gradient(135deg, #f5f7fa, #e4e9f0, #d9e0eb);
+  color: #1e293b;
+}
+
+body.light-mode .card {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+}
+
+body.light-mode .card:hover {
+  box-shadow: 0 40px 80px rgba(0, 0, 0, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.7) inset;
+}
+
+body.light-mode .logo {
+  color: #1e293b;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode .logo span {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: none;
+}
+
+body.light-mode .tagline {
+  color: rgba(30, 41, 59, 0.7);
+}
+
+body.light-mode .feature-item {
+  background: rgba(0, 0, 0, 0.04);
+  border-color: rgba(0, 0, 0, 0.06);
+  color: #1e293b;
+}
+
+body.light-mode input[type="url"] {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #1e293b;
+}
+
+body.light-mode input[type="url"]::placeholder {
+  color: rgba(0, 0, 0, 0.35);
+}
+
+body.light-mode input[type="url"]:focus {
+  border-color: #7c3aed;
+  box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.2);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+body.light-mode .btn-primary {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  box-shadow: 0 4px 20px rgba(124, 58, 237, 0.3);
+}
+
+body.light-mode .btn-primary:hover {
+  box-shadow: 0 8px 32px rgba(124, 58, 237, 0.45);
+}
+
+body.light-mode .result-box {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+body.light-mode .result-box .url-display {
+  color: #1e293b;
+}
+
+body.light-mode .result-box .url-display a {
+  color: #7c3aed;
+}
+
+body.light-mode .copy-btn {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: #1e293b;
+}
+
+body.light-mode .copy-btn:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #0f172a;
+}
+
+body.light-mode .copy-btn.copied {
+  background: #10b981;
+  border-color: #10b981;
+  color: white;
+}
+
+body.light-mode .error-message {
+  color: #dc2626;
+}
+
+body.light-mode .footer {
+  border-top-color: rgba(0, 0, 0, 0.06);
+  color: rgba(0, 0, 0, 0.35);
+}
+
+body.light-mode .footer a {
+  background: linear-gradient(135deg, #7c3aed, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+body.light-mode .footer a:hover {
+  filter: brightness(1.3);
+}
+
+body.light-mode .theme-toggle {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #1e293b;
+}
+
+body.light-mode .theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.8);
+}
+
+body.light-mode .char-counter {
+  color: rgba(0, 0, 0, 0.2);
 }
 
 /* --- Glass Card --- */
@@ -38,12 +166,39 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
   text-align: center;
-  transition: box-shadow 0.25s ease, border-color 0.25s ease;
+  transition: background 0.4s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
 }
 
 .card:hover {
   box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
   border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* --- Theme Toggle Button --- */
+.theme-toggle {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: #fff;
+}
+
+.theme-toggle:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: scale(1.05);
 }
 
 /* --- Logo --- */
@@ -57,6 +212,7 @@ body {
   letter-spacing: -0.02em;
   margin-bottom: 0.25rem;
   text-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+  transition: color 0.4s ease;
 }
 
 .logo span {
@@ -82,6 +238,7 @@ body {
   line-height: 1.5;
   font-weight: 400;
   letter-spacing: -0.01em;
+  transition: color 0.4s ease;
 }
 
 /* --- Features (glassy pills) --- */
@@ -107,6 +264,7 @@ body {
   gap: 0.3rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   letter-spacing: 0.01em;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .feature-item .icon {
@@ -128,6 +286,16 @@ body {
   gap: 0.75rem;
 }
 
+/* --- Character Counter --- */
+.char-counter {
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.3);
+  text-align: right;
+  margin-top: 0.25rem;
+  min-height: 1.2rem;
+  transition: color 0.3s ease;
+}
+
 /* --- Input Field --- */
 input[type="url"] {
   flex: 1;
@@ -140,14 +308,11 @@ input[type="url"] {
   background: rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
   outline: none;
   min-width: 180px;
   letter-spacing: 0.01em;
   color: #ffffff;
-}
-
-input[type="url"] {
   font-variant-numeric: tabular-nums;
 }
 
@@ -214,7 +379,7 @@ input[type="url"]:focus {
   justify-content: space-between;
   gap: 0.75rem;
   min-height: 3.25rem;
-  transition: border-color 0.2s ease;
+  transition: border-color 0.2s ease, background 0.3s ease;
 }
 
 .result-box .url-display {
@@ -229,6 +394,7 @@ input[type="url"]:focus {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   font-variant-numeric: tabular-nums;
   letter-spacing: 0.01em;
+  transition: color 0.3s ease;
 }
 
 .result-box .url-display a {
@@ -287,9 +453,9 @@ input[type="url"]:focus {
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.35);
   letter-spacing: 0.01em;
+  transition: border-color 0.3s ease, color 0.3s ease;
 }
 
-/* ✅ Updated GitHub Link Color */
 .footer a {
   background: linear-gradient(135deg, #f093fb, #f5576c);
   -webkit-background-clip: text;
@@ -362,5 +528,13 @@ input[type="url"]:focus {
   .feature-item {
     font-size: 0.7rem;
     padding: 0.25rem 0.6rem;
+  }
+
+  .theme-toggle {
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 34px;
+    height: 34px;
+    font-size: 1rem;
   }
 }
