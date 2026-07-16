@@ -20,8 +20,13 @@
 
   <div class="card">
 
+    <!-- Theme Toggle -->
+    <button id="themeToggle" class="theme-toggle" aria-label="Toggle theme">
+      ☀️
+    </button>
+
     <!-- Logo -->
-    <div class="logo">🔗 <span>ShortLink</span></div>
+    <div class="logo"> <span>URL Shortener </span></div>
     <p class="tagline">
       Paste a long URL &amp; get a short, shareable link instantly.
     </p>
@@ -49,6 +54,8 @@
             <span id="btnText">Shorten</span>
           </button>
         </div>
+        <!-- Character counter -->
+        <div id="charCount" class="char-counter"></div>
         <div id="errorMessage" class="error-message"></div>
       </div>
     </form>
@@ -61,7 +68,7 @@
 
     <!-- Footer -->
     <div class="footer">
-      Built with  using Node.js, Express &amp; SQLite &middot;
+     
       <a href="https://github.com/yared2124/CodeAlpha_Simple_URL_Shortener" target="_blank">GitHub</a>
     </div>
 
