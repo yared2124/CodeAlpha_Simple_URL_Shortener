@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🔗 Simple URL Shortener</title>
+  <title>🔗 ShortLink – URL Shortener</title>
 
-  <!-- Google Font -->
+  <!-- Google Font (Inter) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -13,38 +13,292 @@
     rel="stylesheet"
   />
 
-  <!-- External CSS -->
-  <link rel="stylesheet" href="/Simple-URL-Shortener/public/index.css" />
+  <style>
+    /* --- Reset & Base --- */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #f8fafc;
+      color: #0f172a;
+      padding: 1.5rem;
+    }
+
+    /* --- Card --- */
+    .card {
+      max-width: 640px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 2rem;
+      padding: 2.5rem 2rem 2rem;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 0, 0, 0.04);
+      border: 1px solid #e9edf4;
+      text-align: center;
+    }
+
+    /* --- Logo --- */
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #0f172a;
+      margin-bottom: 0.5rem;
+    }
+    .logo span {
+      background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .tagline {
+      font-size: 1.1rem;
+      color: #64748b;
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    /* --- Features --- */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+    .feature-item {
+      background: #f1f5f9;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    .feature-item .icon {
+      font-size: 1.2rem;
+      line-height: 1;
+    }
+
+    /* --- Form --- */
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .input-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+    }
+
+    input[type="url"] {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 1.5rem;
+      font-size: 1rem;
+      font-family: inherit;
+      background: #f8fafc;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      min-width: 200px;
+    }
+    input[type="url"]:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+    }
+    input[type="url"]::placeholder {
+      color: #94a3b8;
+    }
+
+    .btn-primary {
+      padding: 0.9rem 2rem;
+      background: #0f172a;
+      color: #ffffff;
+      border: none;
+      border-radius: 1.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      white-space: nowrap;
+    }
+    .btn-primary:hover {
+      background: #1e293b;
+    }
+    .btn-primary:active {
+      transform: scale(0.96);
+    }
+    .btn-primary:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* --- Result --- */
+    .result-box {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1rem;
+      background: #f1f5f9;
+      border-radius: 1.5rem;
+      border: 2px solid #e2e8f0;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 3.5rem;
+    }
+    .result-box .url-display {
+      font-size: 0.95rem;
+      color: #0f172a;
+      flex: 1;
+      text-align: left;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .result-box .url-display a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+    .result-box .url-display a:hover {
+      text-decoration: underline;
+    }
+
+    .copy-btn {
+      background: #e2e8f0;
+      border: none;
+      border-radius: 1rem;
+      padding: 0.4rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #0f172a;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .copy-btn:hover {
+      background: #cbd5e1;
+    }
+    .copy-btn.copied {
+      background: #22c55e;
+      color: white;
+    }
+
+    .error-message {
+      color: #ef4444;
+      font-size: 0.9rem;
+      font-weight: 500;
+      margin-top: 0.25rem;
+      min-height: 1.5rem;
+    }
+
+    /* --- Footer --- */
+    .footer {
+      margin-top: 2.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid #e9edf4;
+      font-size: 0.85rem;
+      color: #94a3b8;
+    }
+    .footer a {
+      color: #3b82f6;
+      text-decoration: none;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* --- Spinner --- */
+    .spinner {
+      display: inline-block;
+      width: 1rem;
+      height: 1rem;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin-right: 0.3rem;
+    }
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* --- Responsive --- */
+    @media (max-width: 500px) {
+      .card {
+        padding: 1.75rem 1rem;
+      }
+      .logo {
+        font-size: 1.6rem;
+      }
+      .input-row {
+        flex-direction: column;
+      }
+      .btn-primary {
+        width: 100%;
+        justify-content: center;
+      }
+      .result-box {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      .result-box .url-display {
+        white-space: normal;
+        text-align: center;
+        width: 100%;
+      }
+      .features {
+        gap: 0.4rem;
+      }
+      .feature-item {
+        font-size: 0.75rem;
+        padding: 0.3rem 0.7rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="card">
+  <div class="card">
 
-      <!-- Dark Mode Toggle (top-right corner) -->
-      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark mode">
-        🌙
-      </button>
+    <!-- Logo -->
+    <div class="logo">🔗 <span>ShortLink</span></div>
+    <p class="tagline">
+      Paste a long URL &amp; get a short, shareable link instantly.
+    </p>
 
-      <!-- Logo & Heading -->
-      <div class="logo">
-        🔗 <span>ShortLink</span>
-      </div>
-      <p class="tagline">
-        A minimalist, self-hosted URL shortener.<br />
-        Paste a long link, get a neat, shareable short URL instantly.
-      </p>
+    <!-- Feature badges -->
+    <div class="features">
+      <span class="feature-item"><span class="icon">⚡</span> Instant</span>
+      <span class="feature-item"><span class="icon">🔒</span> Private</span>
+      <span class="feature-item"><span class="icon">📦</span> Self‑hosted</span>
+      <span class="feature-item"><span class="icon">🌐</span> No tracking</span>
+    </div>
 
-      <!-- Feature badges -->
-      <div class="features">
-        <span class="feature-item"><span class="icon">⚡</span> Instant</span>
-        <span class="feature-item"><span class="icon">🔒</span> Privacy-aware</span>
-        <span class="feature-item"><span class="icon">📦</span> Self-hosted</span>
-        <span class="feature-item"><span class="icon">🌐</span> No tracking</span>
-      </div>
-
-      <!-- Form -->
-      <form id="shortenForm" class="form-group" novalidate>
+    <!-- Form -->
+    <form id="shortenForm" novalidate>
+      <div class="form-group">
         <div class="input-row">
           <input
             type="url"
@@ -52,32 +306,33 @@
             placeholder="Paste your long URL here…"
             required
             autofocus
-            value="https://example.com/very/long/path?utm=test&ref=123"
+            value=""
           />
-          <button type="submit" id="shortenBtn">
+          <button type="submit" class="btn-primary" id="shortenBtn">
             <span id="btnText">Shorten</span>
           </button>
         </div>
         <div id="errorMessage" class="error-message"></div>
-      </form>
-
-      <!-- Result Display -->
-      <div id="resultBox" class="result-box" style="display: none">
-        <span class="url-display" id="resultUrl"></span>
-        <button class="copy-btn" id="copyBtn">📋 Copy</button>
       </div>
+    </form>
 
+    <!-- Result -->
+    <div class="result-box" id="resultBox">
+      <span class="url-display" id="resultUrl"></span>
+      <button class="copy-btn" id="copyBtn">📋 Copy</button>
     </div>
 
+    <!-- Footer -->
     <div class="footer">
-       
+      Built with ❤️ using Node.js, Express &amp; SQLite &middot;
       <a href="https://github.com/yared2124/CodeAlpha_Simple_URL_Shortener" target="_blank">GitHub</a>
     </div>
+
   </div>
 
   <script>
-    (function () {
-      // --- DOM refs ---
+    (function() {
+      // ----- DOM refs -----
       const form = document.getElementById('shortenForm');
       const urlInput = document.getElementById('urlInput');
       const shortenBtn = document.getElementById('shortenBtn');
@@ -86,46 +341,10 @@
       const resultBox = document.getElementById('resultBox');
       const resultUrl = document.getElementById('resultUrl');
       const copyBtn = document.getElementById('copyBtn');
-      const themeToggle = document.getElementById('themeToggle');
 
-      // --- THEME TOGGLE LOGIC ---
-      function getPreferredTheme() {
-        const saved = localStorage.getItem('theme');
-        if (saved === 'dark' || saved === 'light') return saved;
-        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-      }
-
-      function applyTheme(theme) {
-        if (theme === 'dark') {
-          document.body.classList.add('dark-mode');
-          themeToggle.textContent = '☀️';
-        } else {
-          document.body.classList.remove('dark-mode');
-          themeToggle.textContent = '🌙';
-        }
-        localStorage.setItem('theme', theme);
-      }
-
-      function toggleTheme() {
-        const current = document.body.classList.contains('dark-mode') ? 'dark' : 'light';
-        const next = current === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-      }
-
-      // Init theme
-      applyTheme(getPreferredTheme());
-      themeToggle.addEventListener('click', toggleTheme);
-
-      // Listen for system changes only if user hasn't manually saved a preference
-      window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-          applyTheme(e.matches ? 'dark' : 'light');
-        }
-      });
-
-      // --- URL SHORTENER LOGIC ---
-      function setLoading(isLoading) {
-        if (isLoading) {
+      // ----- UI helpers -----
+      function setLoading(loading) {
+        if (loading) {
           btnText.innerHTML = '<span class="spinner"></span> Shortening…';
           shortenBtn.disabled = true;
         } else {
@@ -135,13 +354,7 @@
       }
 
       function setError(msg) {
-        if (msg) {
-          errorDiv.textContent = msg;
-          errorDiv.style.display = 'block';
-        } else {
-          errorDiv.textContent = '';
-          errorDiv.style.display = 'none';
-        }
+        errorDiv.textContent = msg || '';
       }
 
       function showResult(shortUrl) {
@@ -150,8 +363,8 @@
         resultBox.dataset.url = shortUrl;
       }
 
-      // Copy to clipboard
-      copyBtn.addEventListener('click', async function () {
+      // ----- Copy to clipboard -----
+      copyBtn.addEventListener('click', async function() {
         const url = resultBox.dataset.url;
         if (!url) return;
         try {
@@ -163,6 +376,7 @@
             copyBtn.classList.remove('copied');
           }, 2000);
         } catch (_) {
+          // fallback
           const range = document.createRange();
           range.selectNode(resultUrl);
           window.getSelection().removeAllRanges();
@@ -176,10 +390,11 @@
         }
       });
 
-      // Form submit
-      form.addEventListener('submit', async function (e) {
+      // ----- Form submit -----
+      form.addEventListener('submit', async function(e) {
         e.preventDefault();
         const longUrl = urlInput.value.trim();
+
         if (!longUrl) {
           setError('Please enter a URL.');
           return;
@@ -187,27 +402,37 @@
         try {
           new URL(longUrl);
         } catch (_) {
-          setError('Invalid URL. Please include "http://" or "https://".');
+          setError('Invalid URL. Include http:// or https://');
           return;
         }
 
-        setError(null);
+        setError('');
         resultBox.style.display = 'none';
         setLoading(true);
 
         try {
+          // ✅ Use the correct API endpoint (matches your server)
           const response = await fetch('/api/shorten', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ longUrl }),
+            body: JSON.stringify({ longUrl })
           });
-          const data = await response.json();
+
+          const rawText = await response.text();
+          console.log('📦 Server raw response:', rawText);
+
+          if (!rawText) {
+            throw new Error('Empty response from server.');
+          }
+          const data = JSON.parse(rawText);
           if (!response.ok) {
             throw new Error(data.error || 'Server error');
           }
+
           showResult(data.shortUrl);
         } catch (err) {
-          setError(err.message || 'Something went wrong. Please try again.');
+          console.error('❌', err);
+          setError(err.message || 'Something went wrong.');
         } finally {
           setLoading(false);
         }
